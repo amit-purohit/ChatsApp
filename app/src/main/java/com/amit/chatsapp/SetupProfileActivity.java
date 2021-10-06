@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.amit.chatsapp.databinding.ActivitySetupProfileBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +32,8 @@ public class SetupProfileActivity extends AppCompatActivity {
     FirebaseStorage storage;
 
     Uri selectedImage;
+    ProgressDialog dialog;
+
 
 
 
@@ -39,10 +43,15 @@ public class SetupProfileActivity extends AppCompatActivity {
         binding = ActivitySetupProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Updating Profile....");
+        dialog.setCancelable(false);
 
+        getSupportActionBar().hide();
         binding.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +74,7 @@ public class SetupProfileActivity extends AppCompatActivity {
                     return;
                 }
                 Log.e("Value of uid is ",auth.getUid());
-
+                dialog.show();
                 if(selectedImage != null)
                 {
                     StorageReference reference = storage.getReference().child("Profiles").child(auth.getUid());
@@ -93,6 +102,7 @@ public class SetupProfileActivity extends AppCompatActivity {
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void unused) {
+                                                        dialog.dismiss();
                                                         Intent intent = new Intent(SetupProfileActivity.this, MainActivity.class);
                                                         startActivity(intent);
                                                         finish();
@@ -103,6 +113,28 @@ public class SetupProfileActivity extends AppCompatActivity {
                             }
                         }
                     });
+                }
+                else
+                {
+
+                    String uid = auth.getUid();
+
+                    String phone = auth.getCurrentUser().getPhoneNumber();
+                    User user = new User(uid, name, phone, "No Image");
+
+                    database.getReference()
+                            .child("users")
+                            .child(uid)
+                            .setValue(user)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(SetupProfileActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
                 }
 
 
