@@ -1,4 +1,4 @@
-package com.amit.chatsapp;
+package com.amit.chatsapp.Models;
 
 public class User {
     private String uid, name, phoneNumber, profileImage;

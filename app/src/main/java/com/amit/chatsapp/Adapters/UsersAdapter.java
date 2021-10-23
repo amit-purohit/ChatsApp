@@ -1,7 +1,7 @@
-package com.amit.chatsapp;
+package com.amit.chatsapp.Adapters;
 
 import android.content.Context;
-import android.view.ContextMenu;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amit.chatsapp.Activities.ChatActivity;
+import com.amit.chatsapp.R;
+import com.amit.chatsapp.Models.User;
 import com.amit.chatsapp.databinding.RowConversationBinding;
 import com.bumptech.glide.Glide;
 
@@ -40,7 +43,21 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         User user = users.get(position);
 
         holder.binding.username.setText(user.getName());
-        Glide.with(context).load(user.getProfileImage()).into(holder.binding.profile);
+        Glide.with(context).load(user.getProfileImage())
+                .placeholder(R.drawable.avatar)
+                .into(holder.binding.profile);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("name",user.getName());
+                intent.putExtra("uid", user.getUid());
+                context.startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override

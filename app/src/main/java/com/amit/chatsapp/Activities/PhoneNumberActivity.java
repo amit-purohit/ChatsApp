@@ -1,4 +1,4 @@
-package com.amit.chatsapp;
+package com.amit.chatsapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

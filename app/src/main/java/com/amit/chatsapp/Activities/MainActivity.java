@@ -1,14 +1,16 @@
-package com.amit.chatsapp;
+package com.amit.chatsapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.amit.chatsapp.R;
+import com.amit.chatsapp.Models.User;
+import com.amit.chatsapp.Adapters.UsersAdapter;
 import com.amit.chatsapp.databinding.ActivityMainBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

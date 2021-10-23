@@ -1,4 +1,4 @@
-package com.amit.chatsapp;
+package com.amit.chatsapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.amit.chatsapp.databinding.ActivityOtpactivityBinding;
